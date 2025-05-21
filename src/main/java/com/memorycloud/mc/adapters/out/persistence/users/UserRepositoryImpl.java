@@ -1,20 +1,22 @@
-package com.memorycloud.mc.adapters.out.persistence;
+package com.memorycloud.mc.adapters.out.persistence.users;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.memorycloud.mc.adapters.out.entity.UserEntity;
+import com.memorycloud.mc.application.port.out.UserRepositoryPort;
 import com.memorycloud.mc.domain.model.UserModel;
-import com.memorycloud.mc.domain.port.out.UserRepositoryPort;
 
 @Component
 public class UserRepositoryImpl implements UserRepositoryPort {
 
   private final UserJpaRepository userJpaRepository;
 
-  UserRepositoryImpl(UserJpaRepository userJpaRepository) {
+  public UserRepositoryImpl(UserJpaRepository userJpaRepository) {
     this.userJpaRepository = userJpaRepository;
   }
 
@@ -22,6 +24,14 @@ public class UserRepositoryImpl implements UserRepositoryPort {
   public List<UserModel> findAll() {
     return userJpaRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
   }
+
+  @Override
+    public void deleteUser(UUID id) {
+        userJpaRepository.findById(id).ifPresent(user -> {
+            user.setDeletedAt(LocalDateTime.now());
+            userJpaRepository.save(user);
+        });
+    }
 
   private UserModel toModel(UserEntity entity) {
     return new UserModel(

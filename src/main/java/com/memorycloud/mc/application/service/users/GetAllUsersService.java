@@ -1,12 +1,12 @@
-package com.memorycloud.mc.application.service;
+package com.memorycloud.mc.application.service.users;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.memorycloud.mc.application.port.in.GetAllUsersUseCase;
-import com.memorycloud.mc.domain.port.out.UserRepositoryPort;
+import com.memorycloud.mc.application.port.in.users.GetAllUsersUseCase;
+import com.memorycloud.mc.application.port.out.UserRepositoryPort;
 import com.memorycloud.mc.domain.model.UserModel;
 
 @Service
