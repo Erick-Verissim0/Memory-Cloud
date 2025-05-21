@@ -29,6 +29,7 @@ public class UserRepositoryImpl implements UserRepositoryPort {
         entity.getName(),
         entity.getEmail(),
         entity.getPassword(),
+        entity.getType(),
         entity.getCreatedAt(),
         entity.getUpdatedAt(),
         entity.getDeletedAt()
