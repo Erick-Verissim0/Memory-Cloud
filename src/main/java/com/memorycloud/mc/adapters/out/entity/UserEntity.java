@@ -1,15 +1,18 @@
 package com.memorycloud.mc.adapters.out.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class UserEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(generator = "UUID")
+  @Column(updatable = false, nullable = false)
+  private UUID id;
 
   @Column(nullable = false)
   private String name;
@@ -19,6 +22,9 @@ public class UserEntity {
 
   @Column(nullable = false)
   private String password;
+
+  @Column(nullable = true, length = 6)
+  private String type;
 
   @Column(name = "created_at")
   private LocalDateTime createdAt;
@@ -32,22 +38,24 @@ public class UserEntity {
   public UserEntity() {
   }
 
-  public UserEntity(Long id, String name, String email, String password, LocalDateTime createdAt,
+  public UserEntity(
+      UUID id, String name, String email, String password, String type, LocalDateTime createdAt,
       LocalDateTime updatedAt, LocalDateTime deletedAt) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
+    this.type = type;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
   }
 
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -73,6 +81,14 @@ public class UserEntity {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 
   public LocalDateTime getCreatedAt() {
