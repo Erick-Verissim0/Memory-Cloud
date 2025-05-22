@@ -2,6 +2,7 @@ package com.memorycloud.mc.adapters.out.persistence.users;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,12 +27,17 @@ public class UserRepositoryImpl implements UserRepositoryPort {
   }
 
   @Override
-    public void deleteUser(UUID id) {
-        userJpaRepository.findById(id).ifPresent(user -> {
-            user.setDeletedAt(LocalDateTime.now());
-            userJpaRepository.save(user);
-        });
-    }
+  public void deleteUser(UUID id) {
+    userJpaRepository.findById(id).ifPresent(user -> {
+      user.setDeletedAt(LocalDateTime.now());
+      userJpaRepository.save(user);
+    });
+  }
+
+  @Override
+  public Optional<UserModel> findOne(UUID id) {
+    return userJpaRepository.findById(id).map(this::toModel);
+  }
 
   private UserModel toModel(UserEntity entity) {
     return new UserModel(
